@@ -1,0 +1,29 @@
+{
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "instance_type": "t2.large",
+    "source_ami_filter": {
+        "filters": {
+            "virtualization-type": "hvm",
+            "name": "*Windows_Server-2012-R2_RTM-English-64Bit-Base-*",
+            "root-device-type": "ebs"
+            },
+        "most_recent": true
+    },
+	"user_data_file": "userdata.ps1",
+    "communicator": "winrm",
+    "winrm_username": "administrator",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+	"ami_name" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-Hardened-KMS",
+	"ami_description" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-Hardened-KMS",
+	"disable_stop_instance" : "true",
+    "force_deregister" : "true",
+	"force_delete_snapshot" : "true"
+  }],
+  "provisioners": [{
+    "type": "powershell",
+    "script": "main.ps1"
+    }]
+}
